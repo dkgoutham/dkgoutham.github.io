@@ -142,6 +142,16 @@
         transform: translate(-60%, -135%);
     }
 
+    .prediction-spotlight-on{
+      color: #191C23 !important;
+      background-color: #FEFEFF !important;
+    }
+
+    .prediction-spotlight-off{
+      color: #6B7378 !important;
+      background-color: #343B4A !important;
+    }
+
     /* The selected key should be relatively positioned to contain the absolute overlays */
     .selected-key {
         position: relative;
@@ -159,7 +169,7 @@
   </style>
 </head>
 <body class="bg-secondary text-uppercase fs-4 pt-5">
-  <div id="curtain">
+  <div id="curtain" class="d-none">
     <p id="inputText" class="form-control mx-auto text-dark fs-4"></p>
     <div class="vstack mt-4 gap-4 mx-auto">
       <div id="square" class="vstack gap-2">

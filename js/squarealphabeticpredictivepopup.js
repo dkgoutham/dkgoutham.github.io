@@ -8,6 +8,8 @@ var index;
 var str;
 let state = 0;
 let keyboard = 0;
+let boolLetter = false;
+let boolPopup = false;
 
 const keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const keyIndex = [0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 25, 30, 31, 32, 33, 34, 35, 40, 41, 42, 43, 44, 45, 50, 51, 52, 53, 54, 55];
@@ -23,48 +25,106 @@ const keyMap = {
 
 var predKeys = ["A", "B", "C", "D", "E", "F"]
 
+var start = 0;
+
+// parameters
+var moveCount = 0; // integer LURD
+var totalClicks = 0; // intger LURDS
+var moves = []; // array LURDS
+var moveAlphabets = []; // array alphabets
+var moveTime = []; // array timestamps
+var totalTime = 0; // integer
+
 correction();
 
 document.onkeydown = function(e) {
+  if (start == 1) {
+    moveTime.push(Date.now());
+    // sleep(50);
     switch (e.keyCode) {
-    case 13:
+      case 13:
         /*ENTER*/
-      select();
-      break;
-    case 16:
+        select();
+        totalClicks++;
+        moves.push("S");
+        break;
+      case 16:
         /*SHIFT*/
-      select();
-      break;
-    case 32:
+        select();
+        totalClicks++;
+        moves.push("S");
+        break;
+      case 32:
         /*SPACE*/
-      select();
-      break;
-    case 37:
+        select();
+        totalClicks++;
+        moves.push("S");
+        break;
+      case 37:
         /*LEFT*/
-      moveLeft();
-      break;
-    case 38:
+        moveLeftWrapper();
+        moveCount++;
+        moves.push("L");
+        break;
+      case 38:
         /*UP*/
-      moveUp();
-      break;
-    case 39:
+        moveUpWrapper();
+        moveCount++;
+        moves.push("U");
+        break;
+      case 39:
         /*RIGHT*/
-      moveRight();
-      break;
-    case 40:
+        moveRightWrapper();
+        moveCount++;
+        moves.push("R");
+        break;
+      case 40:
         /*DOWN*/
-      moveDown();
-      break;
-    case 227:
-      window.open("", "_self").close();
-      break;
-    case 228:
-      startTest();
-      break;
-    default:
-      break;
+        moveDownWrapper();
+        moveCount++;
+        moves.push("D");
+        break;
+      case 227:
+        window.open("", "_self").close();
+        break;
+      case 228:
+        startTest();
+        break;
+      default:
+        break;
+    }
+    moveAlphabets.push(document.getElementById(selection).innerHTML);
+    if (document.getElementById("inputText").innerText == "TIME TO GO SHOPPING") {
+      window.alert("finish!");
+      console.log("Move Count: " + moveCount);
+      totalClicks += moveCount;
+      console.log("Total Clicks: " + totalClicks);
+      console.log("Moves: " + moves);
+      console.log("Move Alphabets: " + moveAlphabets);
+      totalTime = moveTime.length;
+      totalTime = moveTime[totalTime - 1] - moveTime[0];
+      console.log("Total Time: " + totalTime);
+      console.log("Move Times: " + moveTime);
     }
     correction();
+  } else {
+    switch (e.keyCode) {
+      case 227:
+        window.open("", "_self").close();
+        break;
+      case 228:
+        startTest();
+        break;
+      default:
+        break;
+    };
+    moveCount = 0; // integer LURD
+    totalClicks = 0; // intger LURDS
+    moves = []; // array LURDS
+    moveAlphabets = []; // array alphabets
+    moveTime = []; // array timestamps
+    totalTime = 0;
+  }
 };
 
 function addBorder() {
@@ -159,11 +219,10 @@ function clearHighlights() {
 
 
 // Function to position predictive text
-function positionPredictiveText(prediction, direction, id) {
+function positionPredictiveText(prediction, direction) {
     const predictionElement = document.createElement('div');
     predictionElement.classList.add('prediction-overlay', `prediction-${direction}`);
     predictionElement.textContent = prediction;
-    predictionElement.id = id;
     console.log(predictionElement)
     return predictionElement;
 }
@@ -173,19 +232,22 @@ function showPredictiveText(predictions) {
     const selectedKeyElement = document.getElementById(selection);
 
     // Clear any existing predictions
-    const existingPredictions = selectedKeyElement.querySelectorAll('.prediction-overlay');
-    existingPredictions.forEach(pred => pred.remove());
+    // const existingPredictions = selectedKeyElement.querySelectorAll('.prediction-overlay');
+    // existingPredictions.forEach(pred => pred.remove());
+    clearHighlights()
 
     // Assuming predictions are an array like ['A', 'B', 'C', 'D']
     const directions = ['top', 'right', 'bottom', 'left'];
-    const ids = ['10001', '10002', '10003', '10004']
     predictions.forEach((pred, index) => {
-        const predElement = positionPredictiveText(pred, directions[index], ids[index]);
+        const predElement = positionPredictiveText(pred, directions[index]);
         selectedKeyElement.appendChild(predElement);
     });
+
+    console.log("showPredictiveText function called")
 }
 
 async function select() {
+  boolLetter = true;
   animation();
   if (selection == 85) {
     document.getElementById("inputText").innerText += " ";
@@ -196,11 +258,30 @@ async function select() {
   } else if (selection > 100) {
     inputText.innerText += predKeys[selection - 101];
   } else {
-    cond = selection;
-    const isKey = (element) => element == cond;
-    index = keyIndex.findIndex(isKey);
-    innerText = keys[index];
-    document.getElementById("inputText").innerText += innerText;
+    if(boolPopup){
+      // Find the currently selected key element by id
+      const selectedKeyElement = document.getElementById(selection);
+
+      // Find the highlighted prediction overlay within the selected key element
+      const highlightedPrediction = selectedKeyElement.querySelector('.prediction-spotlight-on');
+
+      document.getElementById("inputText").innerText += highlightedPrediction.textContent;
+
+      selectedKeyElement.classList.remove('text-bg-dark');
+      selectedKeyElement.classList.add('text-bg-white');
+
+      boolPopup = false;
+      clearHighlights()
+
+    }
+    else{
+      cond = selection;
+      const isKey = (element) => element == cond;
+      index = keyIndex.findIndex(isKey);
+      innerText = keys[index];
+      document.getElementById("inputText").innerText += innerText;
+    }
+    
 
     // Now that the inputText has been updated, get new predictions
     const currentText = document.getElementById("inputText").innerText;
@@ -211,6 +292,7 @@ async function select() {
 
     // Update the predictive text row with the new predictions
     if (predictions && predictions.length > 0) {
+      console.log("prediction select function if statement entered")
         showPredictiveText(predictions);
     }
   }
@@ -220,24 +302,85 @@ async function select() {
 //   secondKeyboard(); // Call this function to handle any additional keyboard UI updates
 }
 
-// Additional state to track the predictive text popups
-let predictiveState = {
-  isActive: false,
-  currentPredictionIndex: 0
-};
+function popupHighlight(direction){
+  // Find the currently selected key element by id
+  const selectedKeyElement = document.getElementById(selection);
+  
+  // Check if selected key element contains prediction overlays
+  if (selectedKeyElement.querySelector('.prediction-overlay')) {
+    // Remove existing highlights from all prediction overlays
+    const predictionOverlays = selectedKeyElement.querySelectorAll('.prediction-overlay');
+    predictionOverlays.forEach(pred => {
+      pred.classList.remove('prediction-spotlight-on');
+      pred.classList.add('prediction-spotlight-off');
+    });
 
+    // Highlight the prediction overlay in the specified direction
+    const highlightClass = `prediction-${direction}`;
+    const predictionToHighlight = selectedKeyElement.querySelector(`.${highlightClass}`);
+    if (predictionToHighlight) {
+      predictionToHighlight.classList.remove('prediction-spotlight-off');
+      predictionToHighlight.classList.add('prediction-spotlight-on');
+    }
+
+    // Update the background color of the main letter
+    selectedKeyElement.classList.remove('text-bg-white');
+    selectedKeyElement.classList.add('text-bg-dark');
+
+    boolLetter = false;
+    boolPopup = true;
+  }
+}
+
+function moveLeftWrapper(){
+  if(boolLetter){
+    popupHighlight('left')
+  }else if(boolPopup){
+    clearHighlights()
+    boolPopup = false;
+    moveLeft()
+  }else{
+    moveLeft()
+  }
+}
+
+function moveRightWrapper(){
+  if(boolLetter){
+    popupHighlight('right')
+  }else if(boolPopup){
+    clearHighlights()
+    boolPopup = false;
+    moveRight()
+  }else{
+    moveRight()
+  }
+}
+
+function moveUpWrapper(){
+  if(boolLetter){
+    popupHighlight('top')
+  }else if(boolPopup){
+    clearHighlights()
+    boolPopup = false;
+    moveUp()
+  }else{
+    moveUp()
+  }
+}
+
+function moveDownWrapper(){
+  if(boolLetter){
+    popupHighlight('bottom')
+  }else if(boolPopup){
+    clearHighlights()
+    boolPopup = false;
+    moveDown()
+  }else{
+    moveDown()
+  }
+}
 
 function moveLeft() {
-  // Get the new selected key element by its ID from the keyMap
-  const newSelectedKeyElement = document.getElementById(keyMap[keys[selection]]);
-
-  // Check if this element contains any predictive text overlays
-  const predictiveTextExists = newSelectedKeyElement.querySelector('.prediction-overlay') !== null;
-
-  // if(predictiveTextExists){
-
-  // }
-
   if (selection == 85) {
     oldselection = selection;
     selection = 95;
@@ -248,7 +391,7 @@ function moveLeft() {
     selection = 85;
     addBorder();
     return;
-  }else if (selection == 0) {
+  } else if (selection == 0) {
     oldselection = selection;
     selection = 5;
     addBorder();
@@ -310,11 +453,13 @@ function moveLeft() {
     return;
   } else {
     oldselection = selection;
-    maths = selection - 1;
-    selection = maths;
+    selection--;
+    // maths = selection - 1;
+    // selection = maths;
     addBorder();
     return;
   }
+
   return;
 }
 
@@ -391,8 +536,9 @@ function moveRight() {
     // return;
   } else {
     oldselection = selection;
-    maths = selection + 1;
-    selection = maths;
+    selection++;
+    // maths = selection + 1;
+    // selection = maths;
     addBorder();
     return;
   }
@@ -478,8 +624,9 @@ function moveUp() {
     return;
 } else {
   oldselection = selection;
-  maths = selection - 10;
-  selection = maths;
+  selection = selection - 10;
+  // maths = selection - 10;
+  // selection = maths;
   addBorder();
   return;
 }
@@ -577,8 +724,9 @@ function moveDown() {
     return;
   } else {
     oldselection = selection;
-    maths = selection + 10;
-    selection = maths;
+    selection = selection + 10;
+    // maths = selection + 10;
+    // selection = maths;
     addBorder();
     return;
   }
@@ -611,7 +759,7 @@ function correction() {
 
 async function getPredictions(sequence) {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/predict_no_space?sequence=${sequence}&num_predictions=4`);
+    const response = await fetch(`https://prediction-keyboard.onrender.com/predict_no_space?sequence=${sequence}&num_predictions=4`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -626,4 +774,19 @@ async function getPredictions(sequence) {
     console.error('Error fetching predictions:', error);
     return []; // Return an empty array if there is an error
   }
+}
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds) {
+      break;
+    }
+  }
+}
+
+function startTest() {
+	document.getElementById("curtain").classList.remove("d-none");
+	start = 1;
+	console.log(start);
 }
