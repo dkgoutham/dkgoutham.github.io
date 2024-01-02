@@ -263,10 +263,14 @@ async function select() {
   animation();
   if (selection == 85) {
     document.getElementById("inputText").innerText += " ";
+    boolLetter = false;
+    boolPopup = false;
   } else if (selection == 95 || selection == 107) {
     str = document.getElementById("inputText").innerText;
     str = str.substring(0, str.length - 1);
     document.getElementById("inputText").innerText = str;
+    boolLetter = false;
+    boolPopup = false;
   } else if (selection > 100) {
     inputText.innerText += predKeys[selection - 101];
   } else {
@@ -569,40 +573,40 @@ function moveUp() {
     addBorder();
     return;
   } else if (selection == 0) {
-    oldselection = selection;
-    selection = 50;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 50;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 1) {
-    oldselection = selection;
-    selection = 51;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 51;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 2) {
-    oldselection = selection;
-    selection = 52;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 52;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 3) {
-    oldselection = selection;
-    selection = 53;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 53;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 4) {
-    oldselection = selection;
-    selection = 54;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 54;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 5) {
-    oldselection = selection;
-    selection = 55;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 55;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 101) {
     // oldselection = selection;
