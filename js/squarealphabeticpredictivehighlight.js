@@ -424,40 +424,40 @@ function moveUp() {
     addBorder();
     return;
   } else if (selection == 0) {
-    oldselection = selection;
-    selection = 50;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 50;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 1) {
-    oldselection = selection;
-    selection = 51;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 51;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 2) {
-    oldselection = selection;
-    selection = 52;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 52;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 3) {
-    oldselection = selection;
-    selection = 53;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 53;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 4) {
-    oldselection = selection;
-    selection = 54;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 54;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 5) {
-    oldselection = selection;
-    selection = 55;
-    keyboard = 1;
-    addBorder();
+    // oldselection = selection;
+    // selection = 55;
+    // keyboard = 1;
+    // addBorder();
     return;
   } else if (selection == 101) {
     // oldselection = selection;
