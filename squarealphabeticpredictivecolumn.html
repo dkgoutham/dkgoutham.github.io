@@ -102,13 +102,12 @@
         display: flex;
         flex-direction: column;
         align-items: start; /* Aligns children in the center (horizontally in this case) */
-        width: 100%;
     }
 
     /* Align predictive text above the first keyboard column */
     .predictive-column {
       position: absolute;
-      top: 50%; /* Adjust as per the height of your input box */
+      top: 350px; /* Adjust as per the height of your input box */
       left: 50% ; /* Start with 50% and then adjust with transform */
       transform: translate(-173px, -50%); 
       /* This will center the column, adjust the value inside translateX to align it with the first column of the square layout */
@@ -120,7 +119,9 @@
     /* Ensure the rest of the keyboard is positioned correctly if using absolute positioning */
     #square {
         position: relative;
-        top: 350px; /* Adjust this value to make space for the predictive text column */
+        top: 50%;
+         /* Adjust this value to make space for the predictive text column */
+        transform: translateY(+100%)
     }
 
 
@@ -148,18 +149,16 @@
   </style>
 </head>
 <body class="bg-secondary text-uppercase fs-4 pt-5">
-  <div id="curtain" class="d-none" >
+  <div id="curtain" class="d-none">
     <p id="inputText" class="form-control mx-auto text-dark fs-4"></p>
     <div class="vstack mt-4 gap-4 mx-auto">
       <div id="second" class="vstack predictive-column gap-2 mx-auto offactive">
         <!-- <div class="box box-long looking-for">Looking for?</div> -->
-
-          <div id="105" class="box rounded shadow text-bg-dark"><i class="bi bi-backspace-fill align-self-center align-middle"></i></div>
+        <div id="105" class="box rounded shadow text-bg-dark"><i class="bi bi-backspace-fill align-self-center align-middle"></i></div>
         <div id="104" class="box rounded shadow text-bg-dark">A</div>
         <div id="103" class="box rounded shadow text-bg-dark">B</div>
         <div id="102" class="box rounded shadow text-bg-dark">C</div>
         <div id="101" class="box rounded shadow text-bg-dark">D</div>
-        
         <!-- <div id="105" class="box rounded shadow text-bg-dark">E</div>
         <div id="106" class="box rounded shadow text-bg-dark">F</div> -->
         
