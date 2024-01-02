@@ -8,6 +8,7 @@ var index;
 var str;
 let state = 0;
 let keyboard = 0;
+let prevSquare = -1;
 
 const keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const keyIndex = [0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 25, 30, 31, 32, 33, 34, 35, 40, 41, 42, 43, 44, 45, 50, 51, 52, 53, 54, 55];
@@ -84,6 +85,18 @@ document.onkeydown = function(e) {
     }
     moveAlphabets.push(document.getElementById(selection).innerHTML);
     if (document.getElementById("inputText").innerText == "TIME TO GO SHOPPING") {
+      window.alert("finish!");
+      console.log("Move Count: " + moveCount);
+      totalClicks += moveCount;
+      console.log("Total Clicks: " + totalClicks);
+      console.log("Moves: " + moves);
+      console.log("Move Alphabets: " + moveAlphabets);
+      totalTime = moveTime.length;
+      totalTime = moveTime[totalTime - 1] - moveTime[0];
+      console.log("Total Time: " + totalTime);
+      console.log("Move Times: " + moveTime);
+    }
+    if (document.getElementById("inputText").innerText == "THE SECOND LARGEST COUNTRY") {
       window.alert("finish!");
       console.log("Move Count: " + moveCount);
       totalClicks += moveCount;
@@ -179,6 +192,27 @@ function addBorder() {
 //   }
 // }
 
+function updatePredictiveColumnPosition() {
+  if(selection<100 & selection!=85 & selection!= 95){
+    const column = selection % 10;
+    let xValue;
+
+    switch (column) {
+      case 0: xValue = '-173px'; break;
+      case 1: xValue = '-114px'; break;
+      case 2: xValue = '-55px'; break;
+      case 3: xValue = '4px'; break;
+      case 4: xValue = '63px'; break;
+      case 5: xValue = '122px'; break;
+    }
+
+    const predictiveColumn = document.querySelector('.predictive-column');
+    if (predictiveColumn) {
+      predictiveColumn.style.transform = `translate(${xValue}, -50%)`;
+    }
+  }
+}
+
 async function select() {
   animation();
   if (selection == 85) {
@@ -217,49 +251,41 @@ function moveLeft() {
     oldselection = selection;
     selection = 95;
     addBorder();
-    return;
   } else if (selection == 95) {
     oldselection = selection;
     selection = 85;
     addBorder();
-    return;
   } else if (selection == 0) {
     oldselection = selection;
     selection = 5;
     addBorder();
-    return;
   } else if (selection == 10) {
     oldselection = selection;
     selection = 15;
     addBorder();
-    return;
   } else if (selection == 20) {
     oldselection = selection;
     selection = 25;
     addBorder();
-    return;
   } else if (selection == 30) {
     oldselection = selection;
     selection = 35;
     addBorder();
-    return;
   } else if (selection == 40) {
     oldselection = selection;
     selection = 45;
     addBorder();
-    return;
   } else if (selection == 50) {
     oldselection = selection;
     selection = 55;
     addBorder();
-    return;
   } else {
     oldselection = selection;
     maths = selection - 1;
     selection = maths;
     addBorder();
-    return;
   }
+  updatePredictiveColumnPosition()
   return;
 }
 
@@ -268,49 +294,50 @@ function moveRight() {
     oldselection = selection;
     selection = 95;
     addBorder();
-    return;
+  
   } else if (selection == 95) {
     oldselection = selection;
     selection = 85;
     addBorder();
-    return;
+  
   } else if (selection == 5) {
     oldselection = selection;
     selection = 0;
     addBorder();
-    return;
+  
   } else if (selection == 15) {
     oldselection = selection;
     selection = 10;
     addBorder();
-    return;
+  
   } else if (selection == 25) {
     oldselection = selection;
     selection = 20;
     addBorder();
-    return;
+  
   } else if (selection == 35) {
     oldselection = selection;
     selection = 30;
     addBorder();
-    return;
+  
   } else if (selection == 45) {
     oldselection = selection;
     selection = 40;
     addBorder();
-    return;
+  
   } else if (selection == 55) {
     oldselection = selection;
     selection = 50;
     addBorder();
-    return;
+  
   } else {
     oldselection = selection;
     maths = selection + 1;
     selection = maths;
     addBorder();
-    return;
+  
   }
+  updatePredictiveColumnPosition()
   return;
 }
 
@@ -319,30 +346,31 @@ function moveUp() {
     oldselection = selection;
     selection = 51;
     addBorder();
-    return;
+  
   } else if (selection == 95) {
     oldselection = selection;
     selection = 54;
     addBorder();
-    return;
+  
   } else if (selection == 0 || selection == 1 || selection == 2 || selection == 3 || selection == 4 || selection == 5 ) {
+    prevSquare = selection;
     oldselection = selection;
     selection = 101;
     keyboard = 1;
     document.getElementById("second").classList.toggle("offactive");
     document.getElementById("square").classList.toggle("offactive");
     addBorder();
-    return;
+  
   } else if (selection == 101) {
     oldselection = selection;
     selection = 102;
     addBorder();
-    return;
+  
   } else if (selection == 102) {
     oldselection = selection;
     selection = 103;
     addBorder();
-    return;
+  
   } else if (selection == 103) {
     oldselection = selection;
     selection = 104;
@@ -352,20 +380,20 @@ function moveUp() {
     oldselection = selection;
     selection = 105;
     addBorder();
-    return;
+  
   } else if (selection == 105) {
     oldselection = selection;
     selection = 101;
     addBorder();
-    return;
+  
   } else {
-  oldselection = selection;
-  maths = selection - 10;
-  selection = maths;
-  addBorder();
+    oldselection = selection;
+    maths = selection - 10;
+    selection = maths;
+    addBorder();
+  }
+  updatePredictiveColumnPosition()
   return;
-}
-
 }
 
 function moveDown() {
@@ -373,50 +401,41 @@ function moveDown() {
     // oldselection = selection;
     // selection = 0;
     // addBorder();
-    return;
   } else if (selection == 95) {
     // oldselection = selection;
     // selection = 3;
     // addBorder();
-    return;
   } else if (selection == 50) {
     oldselection = selection;
     selection = 85;
     addBorder();
-    return;
   } else if (selection == 51) {
     oldselection = selection;
     selection = 85;
     addBorder();
-    return;
   } else if (selection == 52) {
     oldselection = selection;
     selection = 85;
     addBorder();
-    return;
   } else if (selection == 53) {
     oldselection = selection;
     selection = 95;
     addBorder();
-    return;
   } else if (selection == 54) {
     oldselection = selection;
     selection = 95;
     addBorder();
-    return;
   } else if (selection == 55) {
     oldselection = selection;
     selection = 95;
     addBorder();
-    return;
   } else if (selection == 101) {
     oldselection = selection;
-    selection = 0;
+    selection = prevSquare;
     keyboard = 0;
     document.getElementById("square").classList.toggle("offactive");
     document.getElementById("second").classList.toggle("offactive");
     addBorder();
-    return;
   } else if (selection == 102) {
     oldselection = selection;
     selection = 101;
@@ -424,7 +443,6 @@ function moveDown() {
     // document.getElementById("square").classList.toggle("offactive");
     // document.getElementById("second").classList.toggle("offactive");
     addBorder();
-    return;
   } else if (selection == 103) {
     oldselection = selection;
     selection = 102;
@@ -432,7 +450,6 @@ function moveDown() {
     // document.getElementById("square").classList.toggle("offactive");
     // document.getElementById("second").classList.toggle("offactive");
     addBorder();
-    return;
   } else if (selection == 104) {
     oldselection = selection;
     selection = 103;
@@ -440,7 +457,6 @@ function moveDown() {
     // document.getElementById("square").classList.toggle("offactive");
     // document.getElementById("second").classList.toggle("offactive");
     addBorder();
-    return;
   } else if (selection == 105) {
     oldselection = selection;
     selection = 104;
@@ -448,7 +464,6 @@ function moveDown() {
     // document.getElementById("square").classList.toggle("offactive");
     // document.getElementById("second").classList.toggle("offactive");
     addBorder();
-    return;
   } else if (selection == 107) {
     oldselection = selection;
     selection = 5;
@@ -456,14 +471,14 @@ function moveDown() {
     document.getElementById("square").classList.toggle("offactive");
     document.getElementById("second").classList.toggle("offactive");
     addBorder();
-    return;
   } else {
     oldselection = selection;
     maths = selection + 10;
     selection = maths;
     addBorder();
-    return;
   }
+  updatePredictiveColumnPosition()
+  return;
 }
 
 function animation() {
