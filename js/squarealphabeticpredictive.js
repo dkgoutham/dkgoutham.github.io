@@ -95,6 +95,18 @@ document.onkeydown = function(e) {
       console.log("Total Time: " + totalTime);
       console.log("Move Times: " + moveTime);
     }
+    if (document.getElementById("inputText").innerText == "THE SECOND LARGEST COUNTRY") {
+      window.alert("finish!");
+      console.log("Move Count: " + moveCount);
+      totalClicks += moveCount;
+      console.log("Total Clicks: " + totalClicks);
+      console.log("Moves: " + moves);
+      console.log("Move Alphabets: " + moveAlphabets);
+      totalTime = moveTime.length;
+      totalTime = moveTime[totalTime - 1] - moveTime[0];
+      console.log("Total Time: " + totalTime);
+      console.log("Move Times: " + moveTime);
+    }
     correction();
   } else {
     switch (e.keyCode) {
