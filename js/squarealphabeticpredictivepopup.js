@@ -10,6 +10,8 @@ let state = 0;
 let keyboard = 0;
 let boolLetter = false;
 let boolPopup = false;
+let prevOperation = "";
+let predictions = [];
 
 const keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const keyIndex = [0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 25, 30, 31, 32, 33, 34, 35, 40, 41, 42, 43, 44, 45, 50, 51, 52, 53, 54, 55];
@@ -301,7 +303,7 @@ async function select() {
 
     // Now that the inputText has been updated, get new predictions
     const currentText = document.getElementById("inputText").innerText;
-    const predictions = await getPredictions(currentText);
+    predictions = await getPredictions(currentText);
 
     // Clear existing highlights
     clearHighlights();
@@ -350,11 +352,20 @@ function popupHighlight(direction){
 
 function moveLeftWrapper(){
   if(boolLetter){
+    prevOperation = "left"
     popupHighlight('left')
   }else if(boolPopup){
-    clearHighlights()
-    boolPopup = false;
-    moveLeft()
+    if(prevOperation == "right"){
+      prevOperation = "";
+      boolLetter = true;
+      boolPopup = false;
+      showPredictiveText(predictions)
+      addBorder()
+    }else{
+      clearHighlights()
+      boolPopup = false;
+      moveLeft()
+    }
   }else{
     moveLeft()
   }
@@ -362,11 +373,20 @@ function moveLeftWrapper(){
 
 function moveRightWrapper(){
   if(boolLetter){
+    prevOperation = "right"
     popupHighlight('right')
   }else if(boolPopup){
-    clearHighlights()
-    boolPopup = false;
-    moveRight()
+    if(prevOperation == "left"){
+      prevOperation = "";
+      boolLetter = true;
+      boolPopup = false;
+      showPredictiveText(predictions)
+      addBorder()
+    }else{
+      clearHighlights()
+      boolPopup = false;
+      moveRight()
+    }
   }else{
     moveRight()
   }
@@ -374,11 +394,20 @@ function moveRightWrapper(){
 
 function moveUpWrapper(){
   if(boolLetter){
+    prevOperation = "top"
     popupHighlight('top')
   }else if(boolPopup){
-    clearHighlights()
-    boolPopup = false;
-    moveUp()
+    if(prevOperation == "bottom"){
+      prevOperation = "";
+      boolLetter = true;
+      boolPopup = false;
+      showPredictiveText(predictions)
+      addBorder()
+    }else{
+      clearHighlights()
+      boolPopup = false;
+      moveUp()
+    }
   }else{
     moveUp()
   }
@@ -386,11 +415,21 @@ function moveUpWrapper(){
 
 function moveDownWrapper(){
   if(boolLetter){
+    prevOperation = "bottom"
     popupHighlight('bottom')
   }else if(boolPopup){
-    clearHighlights()
-    boolPopup = false;
-    moveDown()
+    if(prevOperation == "top"){
+      prevOperation = "";
+      boolLetter = true;
+      boolPopup = false;
+      showPredictiveText(predictions)
+      addBorder()
+    }else{
+      clearHighlights()
+      boolPopup = false;
+      moveDown()
+    }
+    
   }else{
     moveDown()
   }
