@@ -193,7 +193,7 @@ function addBorder() {
 
 async function select() {
   animation();
-  if (selection == 85) {
+  if (selection == 85 || selection == 106) {
     document.getElementById("inputText").innerText += " ";
   } else if (selection == 95 || selection == 107) {
     str = document.getElementById("inputText").innerText;
@@ -267,7 +267,7 @@ function moveLeft() {
     return;
   } else if (selection == 101) {
     oldselection = selection;
-    selection = 107;
+    selection = 106;
     addBorder();
     return;
   } else if (selection == 102) {
@@ -295,7 +295,12 @@ function moveLeft() {
     selection = 104;
     addBorder();
     return;
-  } else {
+  } else if (selection == 106) {
+    oldselection = selection;
+    selection = 104;
+    addBorder();
+    return;
+  }else {
     oldselection = selection;
     maths = selection - 1;
     selection = maths;
@@ -363,7 +368,7 @@ function moveRight() {
     return;
   } else if (selection == 104) {
     oldselection = selection;
-    selection = 107;
+    selection = 106;
     addBorder();
     return;
   } else if (selection == 107) {
@@ -372,10 +377,10 @@ function moveRight() {
     addBorder();
     return;
   } else if (selection == 106) {
-    // oldselection = selection;
-    // selection = 101;
-    // addBorder();
-    // return;
+    oldselection = selection;
+    selection = 101;
+    addBorder();
+    return;
   } else {
     oldselection = selection;
     maths = selection + 1;
@@ -431,7 +436,7 @@ function moveUp() {
     return;
   } else if (selection == 4) {
     oldselection = selection;
-    selection = 107;
+    selection = 106;
     keyboard = 1;
     document.getElementById("second").classList.toggle("offactive");
     document.getElementById("square").classList.toggle("offactive");
@@ -439,7 +444,7 @@ function moveUp() {
     return;
   } else if (selection == 5) {
     oldselection = selection;
-    selection = 107;
+    selection = 106;
     keyboard = 1;
     document.getElementById("second").classList.toggle("offactive");
     document.getElementById("square").classList.toggle("offactive");
@@ -566,7 +571,7 @@ function moveDown() {
     document.getElementById("second").classList.toggle("offactive");
     addBorder();
     return;
-  } else if (selection == 107) {
+  } else if (selection == 106) {
     oldselection = selection;
     selection = 5;
     keyboard = 0;
