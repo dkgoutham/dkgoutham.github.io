@@ -104,7 +104,7 @@ document.onkeydown = function(e) {
       console.log("Total Time: " + totalTime);
       console.log("Move Times: " + moveTime);
     }
-    if (document.getElementById("inputText").innerText == "THE SECOND LARGEST COUNTRY") {
+    if (document.getElementById("inputText").innerText == "THE WORLD IS A STAGE") {
       window.alert("finish!");
       console.log("Move Count: " + moveCount);
       totalClicks += moveCount;
